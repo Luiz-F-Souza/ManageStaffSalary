@@ -1,3 +1,6 @@
+using DotnetAPI.Data.Dapper;
+using DotnetAPI.DTO.CreateUserDTO;
+using DotnetAPI.Modules.User;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DotnetAPI.Controllers;

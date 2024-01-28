@@ -1,5 +1,5 @@
 
-namespace DotnetAPI
+namespace DotnetAPI.DTO.CreateUserDTO
 {
     // CREATE USER MODEL
     public partial class CreateUserDTO

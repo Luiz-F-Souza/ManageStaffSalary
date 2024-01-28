@@ -1,4 +1,4 @@
-namespace DotnetAPI
+namespace DotnetAPI.Modules.UserJobInfo
 {
     public partial class UserJobInfo
     {

@@ -1,4 +1,4 @@
-namespace DotnetAPI
+namespace DotnetAPI.Modules.User
 {
     public partial class User
     {
