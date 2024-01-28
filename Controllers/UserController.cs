@@ -98,7 +98,7 @@ public class UserController(IConfiguration config) : ControllerBase
 
         bool HasFinishedWithSucess = _dapper.ExecuteSql(sql);
 
-        return HasFinishedWithSucess ? Ok() : throw new Exception("Não foi possível criar o usuário");
+        return HasFinishedWithSucess ? Ok() : throw new Exception("Não foi possível Deletar o usuário");
 
     }
 }
