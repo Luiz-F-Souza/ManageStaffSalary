@@ -14,7 +14,7 @@ public class UserController(IConfiguration config) : ControllerBase
     private readonly DataContextDapper _dapper = new(config);
 
     private readonly string userTable = "TutorialAppSchema.Users";
-    private readonly string userSalaryTable = "TutorialAppSchema.UserSalary";
+
 
     [HttpGet("GetUsers")]
     // public IActionResult Test()
@@ -98,56 +98,4 @@ public class UserController(IConfiguration config) : ControllerBase
 
     }
 
-    // USER SALARY
-
-    [HttpGet("UserSalary")]
-    public UserSalary GetUserSalary(int userId)
-    {
-
-        string sql = $"SELECT * FROM {userSalaryTable} WHERE userId = {userId}";
-
-        return _dapper.LoadDataSingle<UserSalary>(sql);
-    }
-
-    [HttpPost("UserSalary")]
-    public IActionResult RegisterUserSalary(UserSalary userSalary)
-    {
-
-        string sql = @$"
-            INSERT INTO 
-            {userSalaryTable}([UserId], [Salary])
-            VALUES({userSalary.UserId}, {userSalary.Salary})
-        ".Trim();
-
-        bool HasFinishedWithSucess = _dapper.ExecuteSql(sql);
-
-        return HasFinishedWithSucess ? Ok() : throw new Exception("Não foi possível Criar registro de salário");
-    }
-
-    [HttpPut("UserSalary")]
-    public IActionResult EditUserSalary(int userId, decimal newSalary)
-    {
-
-        string sql = @$"
-            UPDATE {userSalaryTable}
-            SET
-                [Salary] = {newSalary}
-            WHERE userId = {userId}
-        ".Trim();
-
-        bool HasFinishedWithSucess = _dapper.ExecuteSql(sql);
-
-        return HasFinishedWithSucess ? Ok() : throw new Exception("Não foi possível Atualizar o registro de salário");
-    }
-
-    [HttpDelete("UserSalary")]
-    public IActionResult DeleteUserSalary(int userId)
-    {
-
-        string sql = $"DELETE FROM {userSalaryTable} WHERE UserId = {userId}";
-
-        bool HasFinishedWithSucess = _dapper.ExecuteSql(sql);
-
-        return HasFinishedWithSucess ? Ok() : throw new Exception("Não foi possível Deletar o registro de salário");
-    }
 }
