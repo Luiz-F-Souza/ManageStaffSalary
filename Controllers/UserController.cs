@@ -12,6 +12,7 @@ public class UserController(IConfiguration config) : ControllerBase
     // private DataContextDapper _dapper = new DataContextDapper(config); ===
     private readonly DataContextDapper _dapper = new(config);
 
+    private readonly string userTable = "TutorialAppSchema.Users";
 
     [HttpGet("TestConnection")]
     public DateTime TestConnection()
@@ -25,7 +26,7 @@ public class UserController(IConfiguration config) : ControllerBase
     public IEnumerable<User> GetUsers()
     {
 
-        string sql = "SELECT * FROM TutorialAppSchema.Users";
+        string sql = $"SELECT * FROM {userTable}";
 
         IEnumerable<User> Users = _dapper.LoadData<User>(sql);
 
@@ -38,7 +39,7 @@ public class UserController(IConfiguration config) : ControllerBase
     // public IActionResult Test()
     public User GetSingleUser(int userId)
     {
-        string sql = @$"SELECT * FROM TutorialAppSchema.Users WHERE UserId = {userId} ";
+        string sql = @$"SELECT * FROM {userTable} WHERE UserId = {userId} ";
 
         User ReturnedUser = _dapper.LoadDataSingle<User>(sql);
 
@@ -52,7 +53,7 @@ public class UserController(IConfiguration config) : ControllerBase
     {
 
         string sql = $@"
-            UPDATE TutorialAppSchema.Users
+            UPDATE {userTable}
             SET 
                 [FirstName] = '{user.FirstName}',
                 [LastName]  = '{user.LastName}',
@@ -70,7 +71,7 @@ public class UserController(IConfiguration config) : ControllerBase
     public IActionResult AddUser(CreateUserDTO user)
     {
         string sql = $@"
-            INSERT INTO TutorialAppSchema.Users(
+            INSERT INTO {userTable}(
                 [FirstName],
                 [LastName],
                 [Email],
@@ -90,4 +91,14 @@ public class UserController(IConfiguration config) : ControllerBase
         return HasFinishedWithSucess ? Ok() : throw new Exception("Não foi possível criar o usuário");
     }
 
+    [HttpDelete("DeleteUser")]
+    public IActionResult DeleteUser(int userId){
+
+        string sql = $"DELETE FROM {userTable} WHERE UserId = {userId}";
+
+        bool HasFinishedWithSucess = _dapper.ExecuteSql(sql);
+
+        return HasFinishedWithSucess ? Ok() : throw new Exception("Não foi possível criar o usuário");
+
+    }
 }
